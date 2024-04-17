@@ -1,0 +1,119 @@
+    // initialise npm package
+npm init
+
+    // create a folder structure
+mkdir src
+mkdir src/components
+mkdir src/components/Button
+
+    // create index files in each folder exporting all content
+mk src/index.ts
+mk src/components/index.ts
+mk src/components/Button/index.ts
+mk src/components/Button/Button.tsx
+
+    // install dependencies
+npm i react typescript @types/react --save-dev
+
+    // initialise typescript
+npx tsc --init
+
+    // edit tsconfig fields
+"jsx": "react",                         // telling TS that jsx is react
+"declaration": true,                    // provideing types for TS users *.d.ts
+"declarationDir": "types",              // types directory
+"sourceMap": true,                      // debugging tool for converted js files from ts
+"outDir": "dist",                       // output folder
+"moduleResolution": "node",             // defining how modules will be imported. using node method
+"allowSyntheticDefaultImports": true,   // if not exporting default assume that we are
+"emitDeclarationOnly": true             // declaring for TS to bundle only ts files. js files will be bundled by the bundler (in this case rollup)
+
+    // adding Rollup (js bundler). Webpack is better at bundling large applications. Rollup is better suited for libraries.
+    // installing rollup and necessary plugins as dev dependencies
+@rollup/plugin-node-resolve             // tells rollup how to resolve imports
+@rollup/plugin-commonjs                 // lets bundle library using commonjs as well as esx module as per library user's choice
+@rollup/plugin-typescript               // for typescript support
+tslib                                   // @rollup/plugin-typescript dependency
+rollup-plugin-dts                       // for type definition files *.d.ts
+npm i rollup @rollup/plugin-node-resolve @rollup/plugin-commonjs @rollup/plugin-typescript tslib rollup-plugin-dts --save-dev
+
+    // adding rollup config file
+touch rollup.config.js
+
+    // initial rollup.config.js
+{
+        // importing installed rollup plugins
+        import resolve from "@rollup/plugin-node-resolve";
+        import commonjs from "@rollup/plugin-commonjs";
+        import typescript from "@rollup/plugin-typescript";
+        import dts from "rollup-plugin-dts";
+
+        // adding package.json as a variable sp we can refer to it
+        const packageJson = require("./package.json");
+
+        export default [
+        {
+            // entry point for the library
+            input: "src/index.ts",
+            // rollup outputs
+            output: [
+            {
+                // commonjs output
+                file: packageJson.main,
+                format: "cjs",
+                sourcemap: true,
+            },
+            {
+                // esx output
+                file: packageJson.module,
+                format: "esm",
+                sourcemap: true,
+            },
+            ],
+            // rollup plugins
+            plugins: [
+            resolve(),
+            commonjs(),
+            // tsconfig needs to be specified
+            typescript({ tsconfig: "./tsconfig.json" }),
+            ],
+        },
+        {
+            // *.d.ts configuration for rollup dts plugin
+            input: "dist/esm/types/index.d.ts",
+            output: [{ file: "dist/index.d.ts", format: "esm" }],
+            plugins: [dts()],
+        },
+        ];
+}
+
+    // adjusting package.json according to rollup config file
+    ...
+"main": "dist/cjs/index.js",    // defines where commonjs modules going to be
+"module": "dist/esm/index.js",  // defines where esx modules going to be
+"files": [
+  "dist"                        // states where all output will be stored. where the library itself will be.
+],
+"types": "dist/index.d.ts"      // where type definition files will be *.d.ts
+
+    // buliding a library
+    // adding script to package.json
+"scripts": {
+  "rollup": "rollup -c" // -c means with config. i.e. rollup.config.js
+},
+
+    // running the rollup script
+npm run rollup
+
+    // configuring git
+    // creating empty git project
+git init
+    // make .gitignore and add node_modules and dist there
+touch .gitignore
+    // adding project to git
+git add .
+git add README.md
+git commit -m "first commit"
+git branch -M main
+git remote add origin (https://github.com/WarlockJa/test-library.git)
+git push -u origin main
