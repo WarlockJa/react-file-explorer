@@ -117,3 +117,24 @@ git commit -m "first commit"
 git branch -M main
 git remote add origin (https://github.com/WarlockJa/test-library.git)
 git push -u origin main
+
+    // creating a package
+    // adjusting package.json. Changing name to @GITHUB_USERNAME/REPOSITORY_NAME and adding publishConfig
+"publishConfig": {
+  "registry": "https://npm.pkg.github.com/GITHUB_USERNAME"
+}
+    // login to npm
+    // getting github _authToken
+https://github.com/settings/tokens
+>> personal access tokens
+>> generate new token
+(set up an expiration date)
+(grant rights to write:packages)
+>> generate token
+    // creating Home/.npmrc
+registry=https://registry.npmjs.org
+@warlockja:registry=https://npm.pkg.github.com/
+//npm.pkg.github.com/:_authToken=YOUR_GITHUB_TOKEN
+
+    // publishing package
+npm publish
