@@ -1,6 +1,6 @@
 {
   "name": "@warlockja/test-library",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Test react component library",
   "scripts": {
     "rollup": "rollup -c"
@@ -22,6 +22,7 @@
     "react": "^18.2.0",
     "rollup": "^4.14.3",
     "rollup-plugin-dts": "^6.1.0",
+    "rollup-plugin-postcss": "^4.0.2",
     "typescript": "^5.4.5"
   },
   "main": "dist/cjs/index.js",

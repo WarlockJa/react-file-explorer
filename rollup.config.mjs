@@ -3,6 +3,7 @@ import resolve from "@rollup/plugin-node-resolve";
 import commonjs from "@rollup/plugin-commonjs";
 import typescript from "@rollup/plugin-typescript";
 import dts from "rollup-plugin-dts";
+import postcss from "rollup-plugin-postcss";
 
 // adding package.json as a variable sp we can refer to it
 import packageJson from "./package.json" assert { type: "json" };
@@ -33,6 +34,7 @@ export default [
       commonjs(),
       // tsconfig needs to be specified
       typescript({ tsconfig: "./tsconfig.json" }),
+      postcss(),
     ],
   },
   {
@@ -40,5 +42,6 @@ export default [
     input: "dist/esm/types/index.d.ts",
     output: [{ file: "dist/index.d.ts", format: "esm" }],
     plugins: [dts()],
+    external: [/\.(css)$/],
   },
 ];

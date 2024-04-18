@@ -7,10 +7,10 @@ mkdir src/components
 mkdir src/components/Button
 
     // create index files in each folder exporting all content
-mk src/index.ts
-mk src/components/index.ts
-mk src/components/Button/index.ts
-mk src/components/Button/Button.tsx
+touch src/index.ts
+touch src/components/index.ts
+touch src/components/Button/index.ts
+touch src/components/Button/Button.tsx
 
     // install dependencies
 npm i react typescript @types/react --save-dev
@@ -137,4 +137,28 @@ registry=https://registry.npmjs.org
 //npm.pkg.github.com/:_authToken=YOUR_GITHUB_TOKEN
 
     // publishing package
+npm publish
+    // associate your package with a repository on GitHub if necessary
+
+    // adding styles to the library
+    // creating Button.css file
+touch src/components/Button/Button.css
+Button.tsx >> import './Button.css'
+
+    // adding rollup configs to bundle css with the library
+npm i rollup-plugin-postcss --save-dev
+    // import postcss in rollup.config.mjs and add it to the plugins array
+    // add css regex to dts configuration section
+external: [/\.css$/],
+
+    // updating library. must have a new version. For indepth semantic versioning info https://semver.org/
+Given a version number MAJOR.MINOR.PATCH, increment the:
+
+MAJOR version when you make incompatible API changes
+MINOR version when you add functionality in a backward compatible manner
+PATCH version when you make backward compatible bug fixes
+
+Additional labels for pre-release and build metadata are available as extensions to the MAJOR.MINOR.PATCH format.
+
+    // changing version to 0.0.2 in package.json and publishing new version
 npm publish
