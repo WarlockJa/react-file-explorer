@@ -162,3 +162,46 @@ Additional labels for pre-release and build metadata are available as extensions
 
     // changing version to 0.0.2 in package.json and publishing new version
 npm publish
+
+    // adding tests (jest)
+npm i @testing-library/react jest @types/jest jest-environment-jsdom --save-dev
+    // creating jest config file jest.config.js
+touch jest.config.js
+    // jest.config.js contents
+module.exports = {
+  testEnvironment: "jsdom",
+};
+    // adding Babel to deal with jsx for jest
+npm i @babel/core @babel/preset-env @babel/preset-react @babel/preset-typescript babel-jest --save-dev
+    // creating babel.config.js
+touch babel.config.js
+    // importing all presets
+module.exports = {
+  presets: [
+    "@babel/preset-env",
+    "@babel/preset-react",
+    "@babel/preset-typescript",
+  ],
+};
+    // adding identity-obj-proxy to deal with css for jest
+npm i identity-obj-proxy --save-dev
+    // adding identity-obj-proxy settings to jest.config.js
+moduleNameMapper: {
+  ".(css|less|scss)$": "identity-obj-proxy",
+},
+    // adding package.json test script 
+"scripts": {
+  ...
+  "test": "jest"
+},
+    // creating test file
+touch src/components/Button/Button.test.tsx
+    // running test
+npm run test
+
+    // adding Storybook. Storybook is a sandbox testing environment library
+npx sb init
+    // (choosing Vite, ?)
+    // creating Button.stories.tsx file
+touch src/components/Button/Button.stories.tsx
+    // copying content from example stories file in src/stories/Button.stories.ts
