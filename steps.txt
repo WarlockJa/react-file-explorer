@@ -201,7 +201,9 @@ npm run test
 
     // adding Storybook. Storybook is a sandbox testing environment library
 npx sb init
-    // (choosing Vite, ?)
+    // (choosing Webpack 5, ?)
     // creating Button.stories.tsx file
 touch src/components/Button/Button.stories.tsx
     // copying content from example stories file in src/stories/Button.stories.ts
+    // to run Storybook
+npm run storybook
